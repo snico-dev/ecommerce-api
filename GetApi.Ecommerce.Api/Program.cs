@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace GetApi.Ecommerce.Api
 {
@@ -16,6 +17,7 @@ namespace GetApi.Ecommerce.Api
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
                         webBuilder.UseStartup<Startup>();
+                        webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
                     });
         }       
     }
