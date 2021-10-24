@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{E79579
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{FB90AA73-3E16-4F1C-90FD-4F6082ECC8F5}"
 	ProjectSection(SolutionItems) = preProject
-		GetApi.Ecommerce.Api\Dockerfile = GetApi.Ecommerce.Api\Dockerfile
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Global
