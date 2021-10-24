@@ -13,4 +13,7 @@ RUN dotnet publish "GetApi.Ecommerce.Api/GetApi.Ecommerce.Api.csproj" -c Release
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+ENV ASPNETCORE_URLS http://*:$PORT
+
 ENTRYPOINT ["dotnet", "GetApi.Ecommerce.Api.dll"]
