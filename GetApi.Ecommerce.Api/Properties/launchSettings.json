@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GetApi.Ecommerce.Api": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
