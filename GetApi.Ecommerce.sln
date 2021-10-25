@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{FB90AA
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetApi.Ecommerce.Infra", "GetApi.Ecommerce.Infra\GetApi.Ecommerce.Infra.csproj", "{363C7BE6-C749-4142-8129-DCB6AD0B6FDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{4455B1D8-3F20-48A7-8B71-ADB074A7C295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4455B1D8-3F20-48A7-8B71-ADB074A7C295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4455B1D8-3F20-48A7-8B71-ADB074A7C295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{363C7BE6-C749-4142-8129-DCB6AD0B6FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{363C7BE6-C749-4142-8129-DCB6AD0B6FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363C7BE6-C749-4142-8129-DCB6AD0B6FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{363C7BE6-C749-4142-8129-DCB6AD0B6FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

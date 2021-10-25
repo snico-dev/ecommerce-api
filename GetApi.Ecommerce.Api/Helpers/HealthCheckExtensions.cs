@@ -9,11 +9,13 @@ namespace GetApi.Ecommerce.Api.Helpers
 {
     public static class HealthCheckExtensions
     {
-        public static IServiceCollection AddHealthChecksWithConfig(this IServiceCollection services, Action<ApplicationInfo> appInfoConfiguration)
+        public static IHealthChecksBuilder BuildHealthCheckers(this IServiceCollection services, Action<ApplicationInfo> appInfoConfiguration)
         {
-            services.AddHealthChecks();
+            var healthChecksBuilder = services.AddHealthChecks();
+
             services.Configure(appInfoConfiguration);
-            return services;
+            
+            return healthChecksBuilder;
         }
 
         public static IApplicationBuilder UseLivenessChecks(this IApplicationBuilder app, PathString endpoint)
@@ -22,6 +24,15 @@ namespace GetApi.Ecommerce.Api.Helpers
             {
                 ResponseWriter = ResponseFormatter.WriteResponseAsync,
                 Predicate = item => false
+            });
+        }
+
+        public static IApplicationBuilder UseReadinessChecks(this IApplicationBuilder app, PathString endpoint, bool forceHealthy)
+        {
+            return app.UseHealthChecks(endpoint, new HealthCheckOptions
+            {
+                ResponseWriter = ResponseFormatter.WriteResponseAsync,
+                Predicate = item => !forceHealthy
             });
         }
     }

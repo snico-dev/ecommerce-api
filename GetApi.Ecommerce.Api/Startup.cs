@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Text.Json.Serialization;
 
 namespace GetApi.Ecommerce.Api
@@ -23,7 +24,10 @@ namespace GetApi.Ecommerce.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddHealthChecksWithConfig((app) => Configuration.GetSection(ApplicationInfo.Key).Bind(app))
+                .BuildHealthCheckers((app) => Configuration.GetSection(ApplicationInfo.Key).Bind(app))
+                .AddMongoDbHealthChecker((config) => config.AddCriticalConnection("MongoDb", Configuration["MongoDb:ConnectionString"], timeout: TimeSpan.FromSeconds(10)));
+            
+            services
                 .AddControllers()
                 .AddJsonOptions(options => AddApiJsonConfiguration(options));
             
@@ -53,6 +57,8 @@ namespace GetApi.Ecommerce.Api
 
             app.UseLivenessChecks("/appinfo");
 
+            app.UseReadinessChecks("/ready", false);
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -62,7 +68,6 @@ namespace GetApi.Ecommerce.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
 

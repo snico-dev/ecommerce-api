@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,12 +42,29 @@ namespace GetApi.Ecommerce.Api.Helpers
                 MapToApplicationStatus(result.Status)
             ));
 
+            var componentsReport = CreateComponentsReport(result.Entries);
+            
+            applicationReport
+                .AddComponents(componentsReport);
+
             return context.Response.WriteAsync(SerializeResponse(applicationReport), Encoding.UTF8);
         }
 
         private static string SerializeResponse(ApplicationReport applicationReport)
         {
             return JsonConvert.SerializeObject(applicationReport, Formatting.Indented, SerializerSettings);
+        }
+
+        public static ApplicationComponent[] CreateComponentsReport(IReadOnlyDictionary<string, HealthReportEntry> healthReportEntries)
+        {
+            return healthReportEntries.Select(kvp => ApplicationComponent.Create(
+                       kvp.Key,
+                       string.Empty,
+                       MapToComponentType(kvp.Value.Tags),
+                       MapToApplicationStatus(kvp.Value.Status),
+                       kvp.Value.Data,
+                       kvp.Value.Duration,
+                       kvp.Value.Exception)).ToArray();
         }
 
         private static ApplicationType MapToComponentType(IEnumerable<string> entryTags)
