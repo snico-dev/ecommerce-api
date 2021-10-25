@@ -33,6 +33,8 @@ namespace GetApi.Ecommerce.Api.Helpers
             HealthStatus failureStatus,
             TimeSpan? timeout)
         {
+            Console.WriteLine($"Credenciais: {credentials}");
+
             _healthChecksBuilder.AddMongoDb(credentials,
                 name,
                 failureStatus,
