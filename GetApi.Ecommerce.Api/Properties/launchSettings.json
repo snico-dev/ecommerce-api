@@ -3,8 +3,11 @@
     "GetApi.Ecommerce.Api": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "Key": "Value",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PORT": "5021"
+      },
+      "jsWebView2Debugging": true
     }
   }
 }

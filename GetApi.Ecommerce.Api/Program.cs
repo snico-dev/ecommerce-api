@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using GetApi.Ecommerce.Infra.Extensions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -22,8 +23,12 @@ namespace GetApi.Ecommerce.Api
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
                         webBuilder.UseStartup<Startup>();
-                        webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
-                    });
+                        
+                        var port = Environment.GetEnvironmentVariable("PORT");
+                        
+                        if (string.IsNullOrEmpty(port) is false) webBuilder.UseUrls("http://*:" + port);
+                    })
+                    .ConfigureLogs();
         }       
     }
 }

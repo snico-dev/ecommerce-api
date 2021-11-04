@@ -1,5 +1,7 @@
 ﻿using GetApi.Ecommerce.Api.Helpers;
 using GetApi.Ecommerce.Api.Helpers.Options;
+using GetApi.Ecommerce.Infra.Catalog.Extensions;
+using GetApi.Ecommerce.Infra.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +28,10 @@ namespace GetApi.Ecommerce.Api
             services
                 .BuildHealthCheckers((app) => Configuration.GetSection(ApplicationInfo.Key).Bind(app))
                 .AddMongoDbHealthChecker((config) => config.AddCriticalConnection("MongoDb", Configuration["MongoDb:ConnectionString"], timeout: TimeSpan.FromSeconds(10)));
-            
+
             services
+                .AddCatalogMongoRepositories(Configuration)
+                .AddCatalogServices()
                 .AddControllers()
                 .AddJsonOptions(options => AddApiJsonConfiguration(options));
             
