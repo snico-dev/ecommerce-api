@@ -5,6 +5,9 @@ WORKDIR /app
 COPY . .
 
 RUN dotnet restore "GetApi.Ecommerce.Api/GetApi.Ecommerce.Api.csproj"
+
+RUN dotnet test
+
 RUN dotnet build "GetApi.Ecommerce.Api/GetApi.Ecommerce.Api.csproj" -c Release -o /app/build
 
 FROM build-env AS publish
