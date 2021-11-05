@@ -1,8 +1,11 @@
-﻿using GetApi.Ecommerce.Core.Catalog.Entities;
+﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
+using GetApi.Ecommerce.Core.Catalog.Entities;
 using GetApi.Ecommerce.Core.Catalog.Repositories;
+using GetApi.Ecommerce.Infra.Extensions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -23,31 +26,11 @@ namespace GetApi.Ecommerce.Infra.Core.Catalog.Repositoreis
         {
             await _collection.InsertOneAsync(product, new InsertOneOptions { BypassDocumentValidation = false }, cancellationToken);
         }
+       
+        public Task<PaginationDto<Product>> List(Expression<Func<Product, bool>> filter, int page, int pageSize, CancellationToken cancellationToken) 
+            => _collection.QueryByPageAsync(page, pageSize, cancellationToken, filter);
 
-        public async IAsyncEnumerable<Product> List(Expression<Func<Product, bool>> filter, int skip, int take, [EnumeratorCancellation] CancellationToken cancellationToken)
-        {
-            var cursor = await _collection.FindAsync(filter, cancellationToken: cancellationToken);
-
-            while (await cursor.MoveNextAsync())
-            {
-                foreach (var item in cursor.Current)
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        public async IAsyncEnumerable<Product> List(int skip, int take, [EnumeratorCancellation]  CancellationToken cancellationToken)
-        {
-            var cursor = await _collection.FindAsync(Builders<Product>.Filter.Empty, cancellationToken: cancellationToken);
-
-            while (await cursor.MoveNextAsync())
-            {
-                foreach (var item in cursor.Current)
-                {
-                    yield return item;
-                }
-            }
-        }
+        public Task<PaginationDto<Product>> List(int page, int pageSize, CancellationToken cancellationToken) 
+            => _collection.QueryByPageAsync(page, pageSize, cancellationToken);
     }
 }

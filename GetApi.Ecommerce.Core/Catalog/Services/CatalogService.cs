@@ -47,9 +47,20 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
 
         public async Task<PaginationDto<ProductDto>> List(int page, int pageSize, CancellationToken cancellationToken)
         {
-            var cursor = _repository.List(0, 1000, cancellationToken);
-
-            return new PaginationDto<ProductDto> { Data = await cursor.MapToDto(new List<Category>() { }) };
+            var pagination = await _repository.List(page, pageSize, cancellationToken);
+            
+            return new PaginationDto<ProductDto>
+            {
+                Data = pagination.Data.MapToDto(new List<Category>() { }),
+                TotalPages = pagination.TotalPages,
+                TotalItems = pagination.TotalItems,
+                PageSize = pageSize,
+                PageNumber = pagination.PageNumber,
+                HasNextPage = pagination.HasNextPage,
+                HasPreviousPage = pagination.HasPreviousPage,
+                NextPageNumber = pagination.NextPageNumber,
+                PreviousPageNumber = pagination.PreviousPageNumber,
+            };
         }
     }
 }

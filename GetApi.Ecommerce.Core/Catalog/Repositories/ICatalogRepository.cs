@@ -1,4 +1,5 @@
-﻿using GetApi.Ecommerce.Core.Catalog.Entities;
+﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
+using GetApi.Ecommerce.Core.Catalog.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -9,8 +10,8 @@ namespace GetApi.Ecommerce.Core.Catalog.Repositories
 {
     public interface ICatalogRepository
     {
-        public Task Create(Product product, CancellationToken cancellationToken);
-        public IAsyncEnumerable<Product> List(Expression<Func<Product, bool>> filter, int skip, int take, CancellationToken cancellationToken);
-        public IAsyncEnumerable<Product> List(int skip, int take, CancellationToken cancellationToken);
+        Task Create(Product product, CancellationToken cancellationToken);
+        Task<PaginationDto<Product>> List(Expression<Func<Product, bool>> filter, int page, int pageSize, CancellationToken cancellationToken);
+        Task<PaginationDto<Product>> List(int page, int pageSize, CancellationToken cancellationToken);
     }
 }

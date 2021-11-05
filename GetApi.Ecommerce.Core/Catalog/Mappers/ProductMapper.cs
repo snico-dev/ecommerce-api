@@ -13,6 +13,11 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
             return products.Select(x => MapToDto(x, categories)).ToArrayAsync();
         }
 
+        public static IEnumerable<ProductDto> MapToDto(this IEnumerable<Product> products, IEnumerable<Category> categories)
+        {
+            return products.Select(x => MapToDto(x, categories)).ToArray();
+        }
+
         public static ProductDto MapToDto(this Product product, IEnumerable<Category> categories)
         {
             return new ProductDto

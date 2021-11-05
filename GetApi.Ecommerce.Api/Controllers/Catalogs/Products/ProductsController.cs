@@ -42,7 +42,7 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Products
             {
                 var pagination = await service.List(request.Page, request.PageSize, cancellationToken);
 
-                if (pagination.Data.Any() is false) return StatusCode(StatusCodes.Status204NoContent);
+                if (pagination.Data.Any() is false) return NoContent();
 
                 return Ok(pagination);
             }

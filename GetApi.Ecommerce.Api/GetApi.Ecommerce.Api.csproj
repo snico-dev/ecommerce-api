@@ -30,8 +30,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Catalogs\Products\Contracts\" />
-  </ItemGroup>
-
 </Project>
