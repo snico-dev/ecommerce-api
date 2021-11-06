@@ -1,9 +1,11 @@
-﻿using System;
+﻿using GetApi.Ecommerce.Core.Shared.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GetApi.Ecommerce.Core.Catalog.Entities
 {
-    public class Product
+    public class Product: Entity
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -13,7 +15,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Entities
         public ICollection<Sku> Skus { get; private set; }
         public ICollection<Guid> CategoryIds { get; private set; }
 
-        private Product(string name, string description)
+        private Product(string name, string description) : base()
         {
             Name = name;
             Description = description;
@@ -43,6 +45,8 @@ namespace GetApi.Ecommerce.Core.Catalog.Entities
             {
                 CategoryIds.Add(category);
             }
+
+            CategoryIds = CategoryIds.Distinct().ToArray();
         }
 
         public void Inactive()

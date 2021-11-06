@@ -62,6 +62,12 @@ namespace GetApi.Ecommerce.Infra.Catalog.Extensions
                 map.AutoMap();
                 map.SetIgnoreExtraElements(true);
             });
+
+            BsonClassMap.RegisterClassMap<Category>(map =>
+            {
+                map.AutoMap();
+                map.SetIgnoreExtraElements(true);
+            });
         }
 
         private static IMongoDatabase GetMongoDatabase(IConfiguration configuration)
@@ -76,6 +82,7 @@ namespace GetApi.Ecommerce.Infra.Catalog.Extensions
         private static void ConfigureCollections(IServiceCollection services, IMongoDatabase db)
         {
             services.AddScoped(x => db.GetCollection<Product>("products"));
+            services.AddScoped(x => db.GetCollection<Category>("categories"));
         }
     }
 }

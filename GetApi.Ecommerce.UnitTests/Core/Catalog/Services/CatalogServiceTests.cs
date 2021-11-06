@@ -8,6 +8,9 @@ using GetApi.Ecommerce.Core.Catalog.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,24 +21,45 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
     public class CatalogServiceTests
     {
         private Mock<ICatalogRepository> _catalogRepositoryMock = new Mock<ICatalogRepository>();
+        private Mock<IListCategoriesService> _listCategoriesServiceMock = new Mock<IListCategoriesService>();
         private Fixture _fixture = new Fixture();
         
         [Fact]
         public async Task Given_ProductData_When_Create_Should_SaveProductAsync()
         {
             // arrange
-            var request = _fixture.Create<ProductRequest>();
             var cancellationToken = new CancellationToken();
+            
+            var parent1Category = _fixture.Build<CategoryDto>().Without(x => x.ParentId).Create();
+            var parent2Category = _fixture.Build<CategoryDto>().With(x => x.ParentId, parent1Category.Id).Create();
+            var parent3Category = _fixture.Build<CategoryDto>().With(x => x.ParentId, parent2Category.Id).Create();
+            
+            var categories = new List<CategoryDto>() {
+                parent1Category,
+                parent2Category,
+                parent3Category
+            };
+
+            var request = _fixture
+                                .Build<ProductRequest>()
+                                .With(x =>x.CategoryIds, new List<Guid> { parent3Category.Id })
+                                .Create();
+
             _catalogRepositoryMock
                 .Setup(x => x.Create(IsValid(request), cancellationToken))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
+
+            _listCategoriesServiceMock
+                .Setup(x => x.List(cancellationToken))
+                .ReturnsAsync(categories);
 
             // act 
             await GetService().Create(request, cancellationToken);
 
             // assert
             _catalogRepositoryMock.VerifyAll();
+            _listCategoriesServiceMock.VerifyAll();
         }
 
         private static Product IsValid(ProductRequest productDto)
@@ -55,7 +79,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
             await GetService()
                     .Invoking(x => x.Create(request, cancellationToken))
                     .Should()
-                    .ThrowAsync<InvalidOperationException>()
+                    .ThrowAsync<ValidationException>()
                     .WithMessage("The product must have at least one category");
         }
 
@@ -71,13 +95,15 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
             await GetService()
                     .Invoking(x => x.Create(request, cancellationToken))
                     .Should()
-                    .ThrowAsync<InvalidOperationException>()
+                    .ThrowAsync<ValidationException>()
                     .WithMessage("The product must have at least one sku");
         }
 
         public CatalogService GetService()
         {
-            return new CatalogService(Mock.Of<ILogger<CatalogService>>(), _catalogRepositoryMock.Object);
+            return new CatalogService(Mock.Of<ILogger<CatalogService>>(), 
+                _catalogRepositoryMock.Object,
+                _listCategoriesServiceMock.Object);
         }
     }
 }

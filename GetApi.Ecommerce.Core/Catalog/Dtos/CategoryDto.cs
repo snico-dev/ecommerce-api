@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GetApi.Ecommerce.Core.Catalog.Requests;
+using System;
 
 namespace GetApi.Ecommerce.Core.Catalog.Dtos
 {

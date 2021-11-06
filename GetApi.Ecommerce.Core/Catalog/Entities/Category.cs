@@ -1,11 +1,12 @@
-﻿using GetApi.Ecommerce.Core.Shared.Entities;
+﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
+using GetApi.Ecommerce.Core.Shared.Entities;
 using System;
 
 namespace GetApi.Ecommerce.Core.Catalog.Entities
 {
     public class Category : Entity
     {
-        public Category(string name, string friendlyUrl, Guid? parentId)
+        public Category(string name, string friendlyUrl, Guid? parentId) : base()
         {
             Name = name;
             FriendlyUrl = friendlyUrl;
@@ -18,5 +19,12 @@ namespace GetApi.Ecommerce.Core.Catalog.Entities
 
         public static Category Create(string name, string friendlyUrl, Guid? parentId = null)
             => new Category(name, friendlyUrl, parentId);
+
+        public void Update(CategoryDto categoryDto)
+        {
+            Name = categoryDto.Name;
+            FriendlyUrl = categoryDto.FriendlyUrl;
+            ParentId = categoryDto.ParentId;
+        }
     }
 }
