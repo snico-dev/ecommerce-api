@@ -10,7 +10,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,8 +19,8 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
 
     public class CatalogServiceTests
     {
-        private Mock<ICatalogRepository> _catalogRepositoryMock = new Mock<ICatalogRepository>();
-        private Mock<IListCategoriesService> _listCategoriesServiceMock = new Mock<IListCategoriesService>();
+        private Mock<ICatalogRepository> _catalogRepositoryMock = new Mock<ICatalogRepository>(MockBehavior.Strict);
+        private Mock<IListCategoriesService> _listCategoriesServiceMock = new Mock<IListCategoriesService>(MockBehavior.Strict);
         private Fixture _fixture = new Fixture();
         
         [Fact]

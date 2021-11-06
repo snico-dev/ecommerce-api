@@ -1,4 +1,6 @@
 ﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
+using GetApi.Ecommerce.Infra.Wrappers;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,9 @@ namespace GetApi.Ecommerce.Infra.Extensions
 {
     public static class MongoExtensions
     {
-        public static async Task<PaginationDto<T>> QueryByPageAsync<T>(this IMongoCollection<T> collection, 
-            int page, 
-            int pageSize, 
+        public static async Task<PaginationDto<T>> QueryByPageAsync<T>(this IMongoCollection<T> collection,
+            int page,
+            int pageSize,
             CancellationToken cancellationToken,
             Expression<Func<T, bool>> filter = null,
             SortDefinition<T> sort = null)
@@ -26,8 +28,7 @@ namespace GetApi.Ecommerce.Infra.Extensions
 
             var pipeline = new List<PipelineStageDefinition<T, T>>();
 
-            if (sort != null)
-                pipeline.Add(PipelineStageDefinitionBuilder.Sort(sort));
+            if (sort != null) pipeline.Add(PipelineStageDefinitionBuilder.Sort(sort));
 
             pipeline.Add(PipelineStageDefinitionBuilder.Skip<T>(CalculatePage(page, pageSize)));
             pipeline.Add(PipelineStageDefinitionBuilder.Limit<T>(pageSize));
@@ -47,6 +48,8 @@ namespace GetApi.Ecommerce.Infra.Extensions
                             .Count ?? 0;
 
             var totalPages = (int)count / pageSize;
+
+            totalPages = totalPages == 0 ? 1 : totalPages;
 
             var data = aggregation.First()
                 .Facets.First(x => x.Name == "data")
@@ -71,6 +74,13 @@ namespace GetApi.Ecommerce.Infra.Extensions
         private static int CalculatePage(int page, int pageSize)
         {
             return (page - 1) * pageSize;
+        }
+
+        public static IServiceCollection AddWrappers(this IServiceCollection services)
+        {
+            services.AddScoped<IMongoPagginationWrapper, MongoPagginationWrapper>();
+
+            return services;
         }
     }
 }

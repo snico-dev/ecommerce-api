@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GetApi.Ecommerce.Core\GetApi.Ecommerce.Core.csproj" />
+    <ProjectReference Include="..\GetApi.Ecommerce.Infra\GetApi.Ecommerce.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -32,6 +32,7 @@ namespace GetApi.Ecommerce.Api
             services
                 .AddCatalogMongoRepositories(Configuration)
                 .AddCatalogServices()
+                .AddWrappers()
                 .AddControllers()
                 .AddJsonOptions(options => AddApiJsonConfiguration(options));
             
