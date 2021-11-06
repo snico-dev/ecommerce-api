@@ -15,12 +15,15 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
     public class CatalogService : ICatalogService
     {
         private ICatalogRepository _repository;
+        private IListCategoriesService _listCategoriesService;
         private ILogger<CatalogService> _logger;
 
         public CatalogService(ILogger<CatalogService> logger,
-            ICatalogRepository repository)
+            ICatalogRepository repository,
+            IListCategoriesService listCategoriesService)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository)); ;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _listCategoriesService = listCategoriesService ?? throw new ArgumentNullException(nameof(listCategoriesService)); 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -48,10 +51,11 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
         public async Task<PaginationDto<ProductDto>> List(int page, int pageSize, CancellationToken cancellationToken)
         {
             var pagination = await _repository.List(page, pageSize, cancellationToken);
-            
+            var categories = await _listCategoriesService.List(cancellationToken);
+
             return new PaginationDto<ProductDto>
             {
-                Data = pagination.Data.MapToDto(new List<Category>() { }),
+                Data = pagination.Data.MapToDto(categories),
                 TotalPages = pagination.TotalPages,
                 TotalItems = pagination.TotalItems,
                 PageSize = pageSize,

@@ -8,23 +8,23 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
 {
     public static class ProductMapper
     {
-        public static ValueTask<ProductDto[]> MapToDto(this IAsyncEnumerable<Product> products, IEnumerable<Category> categories)
+        public static ValueTask<ProductDto[]> MapToDto(this IAsyncEnumerable<Product> products, IEnumerable<CategoryDto> categories)
         {
             return products.Select(x => MapToDto(x, categories)).ToArrayAsync();
         }
 
-        public static IEnumerable<ProductDto> MapToDto(this IEnumerable<Product> products, IEnumerable<Category> categories)
+        public static IEnumerable<ProductDto> MapToDto(this IEnumerable<Product> products, IEnumerable<CategoryDto> categories)
         {
             return products.Select(x => MapToDto(x, categories)).ToArray();
         }
 
-        public static ProductDto MapToDto(this Product product, IEnumerable<Category> categories)
+        public static ProductDto MapToDto(this Product product, IEnumerable<CategoryDto> categories)
         {
             return new ProductDto
             {
                 Name = product.Name,
                 Description = product.Description,
-                Categories = categories.Where(x => product.CategoryIds.Contains(x.Id)).Select(x => FromEntityToDto(x)).ToArray(),
+                Categories = categories.Where(x => product.CategoryIds.Contains(x.Id)),
                 Skus = product.Skus.Select(x => FromEntityToDto(x)).ToArray(),
             };
         }
@@ -40,16 +40,6 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
                 HasAwaysAvailable = sku.HasAwaysAvailable,
                 Available = sku.Available,
                 ImageUri = sku.ImageUri,
-            };
-        }
-
-        private static CategoryDto FromEntityToDto(Category category)
-        {
-            return new CategoryDto
-            {
-                Name = category.Name,
-                ParentId = category.ParentId,
-                FriendlyUrl = category.FriendlyUrl,
             };
         }
     }

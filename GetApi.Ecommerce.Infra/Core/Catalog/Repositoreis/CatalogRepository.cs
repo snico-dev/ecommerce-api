@@ -4,10 +4,7 @@ using GetApi.Ecommerce.Core.Catalog.Repositories;
 using GetApi.Ecommerce.Infra.Extensions;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 

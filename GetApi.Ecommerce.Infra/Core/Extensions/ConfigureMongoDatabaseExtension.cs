@@ -44,6 +44,7 @@ namespace GetApi.Ecommerce.Infra.Catalog.Extensions
         private static void ConfigureRepositories(IServiceCollection services)
         {
             services.AddScoped<ICatalogRepository, CatalogRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         private static void ConfigureMappers()

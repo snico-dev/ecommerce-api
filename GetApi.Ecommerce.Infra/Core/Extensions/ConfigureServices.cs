@@ -8,6 +8,8 @@ namespace GetApi.Ecommerce.Infra.Catalog.Extensions
         public static IServiceCollection AddCatalogServices(this IServiceCollection collection)
         {
             collection.AddScoped<ICatalogService, CatalogService>();
+            collection.AddScoped<ICategoryService, CategoryService>();
+            collection.AddScoped<IListCategoriesService, CategoryService>();
 
             return collection;
         }

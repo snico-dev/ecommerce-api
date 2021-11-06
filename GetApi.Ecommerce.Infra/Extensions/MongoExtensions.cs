@@ -1,6 +1,7 @@
 ﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -10,12 +11,12 @@ namespace GetApi.Ecommerce.Infra.Extensions
 {
     public static class MongoExtensions
     {
-        public static async Task<PaginationDto<T>> QueryByPageAsync<T>(
-            this IMongoCollection<T> collection, 
+        public static async Task<PaginationDto<T>> QueryByPageAsync<T>(this IMongoCollection<T> collection, 
             int page, 
             int pageSize, 
             CancellationToken cancellationToken,
-            Expression<Func<T, bool>> filter = null)
+            Expression<Func<T, bool>> filter = null,
+            SortDefinition<T> sort = null)
         {
             var countFacet = AggregateFacet.Create("count",
                 PipelineDefinition<T, AggregateCountResult>.Create(new[]
@@ -23,13 +24,15 @@ namespace GetApi.Ecommerce.Infra.Extensions
                     PipelineStageDefinitionBuilder.Count<T>()
                 }));
 
-            var dataFacet = AggregateFacet.Create("data",
-                PipelineDefinition<T, T>.Create(new[]
-                {
-                    //PipelineStageDefinitionBuilder.Sort(Builders<T>.Sort.Ascending(x => x.Surname)),
-                    PipelineStageDefinitionBuilder.Skip<T>(CalculatePage(page, pageSize)),
-                    PipelineStageDefinitionBuilder.Limit<T>(pageSize),
-                }));
+            var pipeline = new List<PipelineStageDefinition<T, T>>();
+
+            if (sort != null)
+                pipeline.Add(PipelineStageDefinitionBuilder.Sort(sort));
+
+            pipeline.Add(PipelineStageDefinitionBuilder.Skip<T>(CalculatePage(page, pageSize)));
+            pipeline.Add(PipelineStageDefinitionBuilder.Limit<T>(pageSize));
+
+            var dataFacet = AggregateFacet.Create("data", PipelineDefinition<T, T>.Create(pipeline));
 
             var aggregation = await collection
                                         .Aggregate()
