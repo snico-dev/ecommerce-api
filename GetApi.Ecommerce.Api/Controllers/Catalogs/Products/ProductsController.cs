@@ -50,7 +50,7 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Products
             {
                 _logger.LogError(ex, $"Error while list products.");
 
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -78,7 +78,7 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Products
             {
                 _logger.LogError(ex, $"Error while creating product.");
 
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

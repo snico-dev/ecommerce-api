@@ -23,13 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GetApi.Ecommerce.Api\GetApi.Ecommerce.Api.csproj" />
     <ProjectReference Include="..\GetApi.Ecommerce.Core\GetApi.Ecommerce.Core.csproj" />
     <ProjectReference Include="..\GetApi.Ecommerce.Infra\GetApi.Ecommerce.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Api\Controllers\Catalogs\Categories\" />
-    <Folder Include="Api\Controllers\Catalogs\Products\" />
   </ItemGroup>
 
 </Project>

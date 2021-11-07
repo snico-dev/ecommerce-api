@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GetApi.Ecommerce.Core.Catalog.Dtos
 {
     public class SkuDto
     {
+        public Guid Id { get; set; }
+        
         [Required(ErrorMessage = "The field Name is required")]
         public string Name { get; set; }
 

@@ -51,6 +51,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
         {
             return new SkuDto
             {
+                Id = sku.Id,
                 Name = sku.Name,
                 SalesPrice = sku.SalesPrice,
                 ListPrice = sku.ListPrice,

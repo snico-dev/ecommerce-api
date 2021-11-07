@@ -2,10 +2,12 @@
 using GetApi.Ecommerce.Core.Catalog.Dtos;
 using GetApi.Ecommerce.Core.Catalog.Entities;
 using GetApi.Ecommerce.Infra.Core.Catalog.Repositoreis;
-using GetApi.Ecommerce.Infra.Extensions;
+using GetApi.Ecommerce.UnitTests.Extensions;
 using GetApi.Ecommerce.Infra.Wrappers;
 using MongoDB.Driver;
 using Moq;
+using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -42,7 +44,7 @@ namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
         }
 
         [Fact]
-        public async Task Given_Product_When_ListAsyncAsyc_Should_ListProducts()
+        public async Task Given_Product_When_List_Should_ListProductsWithPagination()
         {
             // arrange
             var cancellationToken = new CancellationToken();
@@ -55,6 +57,25 @@ namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
 
             // act
             await GetRepository().List(1, 100, cancellationToken);
+
+            // assert
+            _collectionMock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task Given_Product_When_ListWithFilter_Should_ListProducts()
+        {
+            // arrange
+            var cancellationToken = new CancellationToken();
+            var product = _fixture.Create<Product>();
+
+            _mongoPagginationWrapperMock
+                .Setup(x => x.QueryByPageAsync(_collectionMock.Object, 1, 100, cancellationToken, It.Is<Expression<Func<Product, bool>>>(y => y.AreEquals(x => x.Id == product.Id)), null))
+                .ReturnsAsync(() => new PaginationDto<Product>())
+                .Verifiable();
+
+            // act
+            await GetRepository().List(x => x.Id == product.Id, 1, 100, cancellationToken);
 
             // assert
             _collectionMock.VerifyAll();
