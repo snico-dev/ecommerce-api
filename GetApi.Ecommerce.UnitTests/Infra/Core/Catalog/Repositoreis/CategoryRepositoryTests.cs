@@ -42,7 +42,6 @@ namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
             _collectionMock.VerifyAll();
         }
 
-
         [Fact]
         public async Task Given_Filter_When_Find_Should_ReturnsCategory()
         {
@@ -80,9 +79,50 @@ namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
             cursorMock.VerifyAll();
         }
 
-        public CategoryRepository GetRepository()
+        [Fact]
+        public async Task Given_Filter_When_List_Should_ReturnsCategory()
         {
-            return new CategoryRepository(_collectionMock.Object);
+            // arrange
+            var category = _fixture.Create<Category>();
+            var cancellationToken = new CancellationToken();
+
+            var cursorMock = new Mock<IAsyncCursor<Category>>();
+            var findOptions = new FindOptions<Category> { };
+
+            var count = 0;
+
+            cursorMock
+                .Setup(x => x.MoveNextAsync(cancellationToken))
+                .ReturnsAsync(() =>
+                {
+                    if (count > 0) return false;
+                    
+                    count++;
+                    return true;
+                })
+                .Verifiable();
+
+            cursorMock
+                .SetupGet(x => x.Current)
+                .Returns(new List<Category> { category })
+                .Verifiable();
+
+            _collectionMock
+               .Setup(x => x.FindAsync(MoqHelpers.IsValidFilter(Builders<Category>.Filter.Empty),
+                   It.Is<FindOptions<Category>>(x => x.BatchSize == findOptions.BatchSize),
+                   cancellationToken))
+               .ReturnsAsync(cursorMock.Object)
+               .Verifiable();
+
+            // act
+            await GetRepository().List(cancellationToken);
+
+            // assert
+            _collectionMock.VerifyAll();
+            cursorMock.VerifyAll();
         }
+
+        public CategoryRepository GetRepository() 
+            => new CategoryRepository(_collectionMock.Object);
     }
 }

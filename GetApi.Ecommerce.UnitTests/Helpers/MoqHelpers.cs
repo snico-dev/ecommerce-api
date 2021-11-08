@@ -14,7 +14,20 @@ namespace GetApi.Ecommerce.UnitTests.Helpers
             return It.Is<ExpressionFilterDefinition<T>>(expr => IsEquals(expr, new ExpressionFilterDefinition<T>(expression)));
         }
 
-        private static bool IsEquals<T>(this ExpressionFilterDefinition<T> expr, ExpressionFilterDefinition<T> comparerExpr)
+        public static FilterDefinition<T> IsValidFilter<T>(FilterDefinition<T> expression)
+        {
+            return It.Is<FilterDefinition<T>>(expr => IsEquals(expr, expression));
+        }
+
+        private static bool IsEquals<T>(ExpressionFilterDefinition<T> expr, ExpressionFilterDefinition<T> comparerExpr)
+        {
+            var serializerRegistry = BsonSerializer.SerializerRegistry;
+            var documentSerializer = serializerRegistry.GetSerializer<T>();
+
+            return expr.Render(documentSerializer, serializerRegistry) == comparerExpr.Render(documentSerializer, serializerRegistry);
+        }
+
+        private static bool IsEquals<T>(FilterDefinition<T> expr, FilterDefinition<T> comparerExpr)
         {
             var serializerRegistry = BsonSerializer.SerializerRegistry;
             var documentSerializer = serializerRegistry.GetSerializer<T>();

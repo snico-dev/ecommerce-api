@@ -32,7 +32,9 @@ namespace GetApi.Ecommerce.Infra.Core.Catalog.Repositoreis
 
         public async Task<IEnumerable<Category>> List(CancellationToken cancellationToken)
         {
-            var cursor = await _collection.FindAsync(Builders<Category>.Filter.Empty, new FindOptions<Category> { }, cancellationToken);
+            var cursor = await _collection.FindAsync(Builders<Category>.Filter.Empty, 
+                                            new FindOptions<Category> { }, 
+                                            cancellationToken);
             
             return await cursor.ToListAsync();
         }
