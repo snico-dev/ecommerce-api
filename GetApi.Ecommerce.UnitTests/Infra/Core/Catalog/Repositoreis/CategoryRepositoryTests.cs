@@ -89,18 +89,10 @@ namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
             var cursorMock = new Mock<IAsyncCursor<Category>>();
             var findOptions = new FindOptions<Category> { };
 
-            var count = 0;
-
             cursorMock
-                .Setup(x => x.MoveNextAsync(cancellationToken))
-                .ReturnsAsync(() =>
-                {
-                    if (count > 0) return false;
-                    
-                    count++;
-                    return true;
-                })
-                .Verifiable();
+                .SetupSequence(x => x.MoveNextAsync(cancellationToken))
+                .ReturnsAsync(true)
+                .ReturnsAsync(false);
 
             cursorMock
                 .SetupGet(x => x.Current)
