@@ -16,7 +16,6 @@ using Xunit;
 
 namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
 {
-
     public class CatalogServiceTests
     {
         private Mock<ICatalogRepository> _catalogRepositoryMock = new Mock<ICatalogRepository>(MockBehavior.Strict);
@@ -61,11 +60,6 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
             _listCategoriesServiceMock.VerifyAll();
         }
 
-        private static Product IsValid(ProductRequest productDto)
-        {
-            return It.Is<Product>(x => x.Name == productDto.Name && productDto.Description == productDto.Description);
-        }
-
         [Fact]
         public async Task Given_ProductDataWithoutCategories_When_Create_Should_ThrowInvalidOperationException()
         {
@@ -103,6 +97,11 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
             return new CatalogService(Mock.Of<ILogger<CatalogService>>(), 
                 _catalogRepositoryMock.Object,
                 _listCategoriesServiceMock.Object);
+        }
+
+        private static Product IsValid(ProductRequest productDto)
+        {
+            return It.Is<Product>(x => x.Name == productDto.Name && productDto.Description == productDto.Description);
         }
     }
 }

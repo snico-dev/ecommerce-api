@@ -1,16 +1,13 @@
 ﻿using AutoFixture;
 using GetApi.Ecommerce.Core.Catalog.Entities;
-using GetApi.Ecommerce.UnitTests.Extensions;
 using GetApi.Ecommerce.Infra.Core.Catalog.Repositoreis;
+using GetApi.Ecommerce.UnitTests.Helpers;
 using MongoDB.Driver;
 using Moq;
-using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using System.Collections.Generic;
-using GetApi.Ecommerce.UnitTests.Helpers;
 
 namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
 {

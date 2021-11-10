@@ -124,7 +124,7 @@ namespace GetApi.Ecommerce.UnitTests.Api.Controllers.Catalogs.Products
             _catalogServiceMock.VerifyAll();
         }
 
-        public ProductsController GetController(HttpContext? httpContext = null)
+        public ProductsController GetController(HttpContext httpContext = null)
         {
             if (httpContext is null) httpContext = new DefaultHttpContext();
 

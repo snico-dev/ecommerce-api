@@ -29,9 +29,7 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Categories
         [ProducesResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> List(
-           [FromServices] ICategoryService service,
-           CancellationToken cancellationToken)
+        public async Task<ActionResult> List([FromServices] ICategoryService service, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Requesting to list categories");
 
@@ -55,9 +53,8 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Categories
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Create([FromBody] CategoryRequest request,
-           [FromServices] ICategoryService service,
-           CancellationToken cancellationToken)
+        public async Task<ActionResult> Create([FromBody] CategoryRequest request, 
+            [FromServices] ICategoryService service, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Requesting to list categories");
 

@@ -29,8 +29,4 @@
     <ProjectReference Include="..\GetApi.Ecommerce.Infra\GetApi.Ecommerce.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Api\Controllers\Catalogs\Categories\" />
-  </ItemGroup>
-
 </Project>

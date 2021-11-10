@@ -81,9 +81,7 @@ namespace GetApi.Ecommerce.UnitTests.Infra.Core.Catalog.Repositoreis
             _collectionMock.VerifyAll();
         }
 
-        public CatalogRepository GetRepository()
-        {
-            return new CatalogRepository(_collectionMock.Object, _mongoPagginationWrapperMock.Object);
-        }
+        public CatalogRepository GetRepository() => 
+            new CatalogRepository(_collectionMock.Object, _mongoPagginationWrapperMock.Object);
     }
 }
