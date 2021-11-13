@@ -1,4 +1,5 @@
-﻿using GetApi.Ecommerce.Api.Helpers;
+﻿using FluentValidation.AspNetCore;
+using GetApi.Ecommerce.Api.Helpers;
 using GetApi.Ecommerce.Api.Helpers.Options;
 using GetApi.Ecommerce.Infra.Catalog.Extensions;
 using GetApi.Ecommerce.Infra.Extensions;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace GetApi.Ecommerce.Api
@@ -34,7 +36,8 @@ namespace GetApi.Ecommerce.Api
                 .AddCatalogServices()
                 .AddWrappers()
                 .AddControllers()
-                .AddJsonOptions(options => AddApiJsonConfiguration(options));
+                .AddJsonOptions(options => AddApiJsonConfiguration(options))
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
             
             AddSwagger(services, Configuration);
         }

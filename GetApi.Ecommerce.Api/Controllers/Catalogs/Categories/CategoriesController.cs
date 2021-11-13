@@ -1,5 +1,4 @@
-﻿using GetApi.Ecommerce.Api.Helpers;
-using GetApi.Ecommerce.Core.Catalog.Dtos;
+﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
 using GetApi.Ecommerce.Core.Catalog.Requests;
 using GetApi.Ecommerce.Core.Catalog.Services;
 using Microsoft.AspNetCore.Http;
@@ -58,19 +57,17 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Categories
         {
             _logger.LogInformation("Requesting to list categories");
 
-            var (isValid, validationResults) = request.Validate();
-
-            if (isValid is false) return BadRequest(validationResults);
-
             try
             {
                 await service.Create(request, cancellationToken);
 
                 return StatusCode(StatusCodes.Status201Created);
             }
-            catch (ValidationException ex)
+            catch (InvalidOperationException ex)
             {
-                return BadRequest(ex.ValidationResult);
+                ModelState.AddModelError("category", ex.Message);
+                
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {

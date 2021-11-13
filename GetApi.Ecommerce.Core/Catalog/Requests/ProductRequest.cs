@@ -2,23 +2,15 @@
 using GetApi.Ecommerce.Core.Catalog.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace GetApi.Ecommerce.Core.Catalog.Requests
 {
-    public class ProductRequest : IValidatable
+    public class ProductRequest
     {
-        [Required(ErrorMessage = "The field Name is required")]
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "The field Description is required")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "The field Skus is required")]
         public IEnumerable<SkuDto> Skus { get; set; }
-
-        [Required(ErrorMessage = "The field CategoryIds is required")]
         public IEnumerable<Guid> CategoryIds { get; set; }
 
         public IEnumerable<Sku> MapToSkus()

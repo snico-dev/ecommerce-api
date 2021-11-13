@@ -5,7 +5,6 @@ using GetApi.Ecommerce.Core.Catalog.Repositories;
 using GetApi.Ecommerce.Core.Catalog.Requests;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,10 +23,10 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
         public async Task Create(CategoryRequest request, CancellationToken cancellationToken)
         {
             if (request is null)
-                throw new ValidationException($"This argument: {nameof(request)} can't be null");
+                throw new InvalidOperationException($"This argument: {nameof(request)} can't be null");
 
             if (await HasCategory(request, cancellationToken) is false)
-                throw new ValidationException("Parent category id was not found");
+                throw new InvalidOperationException("Parent category id was not found");
 
             await _repository.Create(
                 Category.Create(request.Name, request.FriendlyUrl, request.ParentId),

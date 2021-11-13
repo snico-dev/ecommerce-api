@@ -34,10 +34,6 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Products
         {
             _logger.LogInformation("Requesting to list products");
 
-            var (isValid, validationResults) = request.Validate();
-
-            if (isValid is false) return BadRequest(validationResults);
-
             try
             {
                 var pagination = await service.List(request.Page, request.PageSize, cancellationToken);
@@ -63,10 +59,6 @@ namespace GetApi.Ecommerce.Api.Controllers.Catalogs.Products
             CancellationToken cancellationToken)
         {
             _logger.LogInformation("Requesting to create a product");
-
-            var (isValid, validationResults) = request.Validate();
-
-            if (isValid is false) return BadRequest(validationResults);
 
             try
             {

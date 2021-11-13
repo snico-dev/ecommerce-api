@@ -55,7 +55,7 @@ namespace GetApi.Ecommerce.UnitTests.Api.Controllers.Catalogs.Categories
 
             _categoryServiceMock
                 .Setup(x => x.Create(request, cancellationToken))
-                .Throws(new ValidationException())
+                .Throws(new InvalidOperationException())
                 .Verifiable();
 
             // act

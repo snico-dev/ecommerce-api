@@ -72,7 +72,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
             await GetService()
                     .Invoking(x => x.Create(request, cancellationToken))
                     .Should()
-                    .ThrowAsync<ValidationException>()
+                    .ThrowAsync<InvalidOperationException>()
                     .WithMessage("The product must have at least one category");
         }
 
@@ -88,7 +88,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
             await GetService()
                     .Invoking(x => x.Create(request, cancellationToken))
                     .Should()
-                    .ThrowAsync<ValidationException>()
+                    .ThrowAsync<InvalidOperationException>()
                     .WithMessage("The product must have at least one sku");
         }
 

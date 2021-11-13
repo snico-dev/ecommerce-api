@@ -33,15 +33,15 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
             var product = Product.Create(productDto.Name, productDto.Description);
 
             if (HasValue(productDto.CategoryIds) is false)
-                throw new ValidationException("The product must have at least one category");
+                throw new InvalidOperationException("The product must have at least one category");
 
             if (HasValue(productDto.Skus) is false)
-                throw new ValidationException("The product must have at least one sku");
+                throw new InvalidOperationException("The product must have at least one sku");
 
             var categories = await _listCategoriesService.List(cancellationToken);
 
             if (IsValidCategories(productDto.CategoryIds, categories) is false)
-                throw new ValidationException("The product must hava registed categories in databse");
+                throw new InvalidOperationException("The product must hava registed categories in databse");
 
             product.AddCategoryRange(productDto.CategoryIds);
             product.AddSkuRange(productDto.MapToSkus());
