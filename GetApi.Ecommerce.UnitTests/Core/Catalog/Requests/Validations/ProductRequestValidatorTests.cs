@@ -21,8 +21,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Requests.Validations
             result.ShouldHaveValidationErrorFor(product => product.Name);
             result.ShouldHaveValidationErrorFor(product => product.Description);
             result.ShouldHaveValidationErrorFor(product => product.CategoryIds);
-            result.ShouldHaveValidationErrorFor(product => product.Skus)
-                    .WithErrorCode("PredicateValidator");
+            result.ShouldHaveValidationErrorFor(product => product.Skus).WithErrorCode("PredicateValidator");
         }
 
         [Fact]
