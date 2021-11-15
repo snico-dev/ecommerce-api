@@ -19,32 +19,21 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Dtos.Validations
             var result = validation.TestValidate(sku);
 
             result.ShouldHaveValidationErrorFor(sku => sku.Name);
-            result.ShouldHaveValidationErrorFor(sku => sku.SalesPrice);
-            result.ShouldHaveValidationErrorFor(sku => sku.AvailableQuantity);
-            result.ShouldHaveValidationErrorFor(sku => sku.ImageUri);
-            result.ShouldHaveValidationErrorFor(sku => sku.SalesPrice);
-        }
-
-        [Fact]
-        public void Given_Sku_With_InvalidUri_When_Validate_Should_BeInvalid()
-        {
-            var sku = _fixture.Build<SkuDto>().With(x => x.ImageUri, "invalid_uri").Create();
-            var validation = new SkuDtoValidator();
-            
-            var result = validation.TestValidate(sku);
-            
-            result.ShouldHaveValidationErrorFor(sku => sku.ImageUri);
+            result.ShouldHaveValidationErrorFor(sku => sku.Medias);
+            result.ShouldHaveValidationErrorFor(sku => sku.Sellers);
         }
 
         [Fact]
         public void Given_ValidSku_When_Validate_Should_BeValid()
         {
-            var sku = _fixture.Build<SkuDto>().With(x => x.ImageUri, "https://local.image.com").Create();
+            var sku = _fixture.Build<SkuDto>().Create();
 
             var validation = new SkuDtoValidator();
             var result = validation.TestValidate(sku);
 
-            result.ShouldNotHaveAnyValidationErrors();
+            result.ShouldNotHaveValidationErrorFor(x => x.Name);
+            result.ShouldNotHaveValidationErrorFor(x => x.Medias);
+            result.ShouldNotHaveValidationErrorFor(x => x.Sellers);
         }
     }
 }

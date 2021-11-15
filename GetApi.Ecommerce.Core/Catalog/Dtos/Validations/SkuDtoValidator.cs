@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using GetApi.Ecommerce.Core.Shared.Validators;
+using System.Linq;
 
 namespace GetApi.Ecommerce.Core.Catalog.Dtos.Validations
 {
@@ -12,38 +12,17 @@ namespace GetApi.Ecommerce.Core.Catalog.Dtos.Validations
                .NotEmpty()
                .WithMessage("The field name is required");
 
-            RuleFor(x => x.ImageUri)
-               .NotNull()
-               .NotEmpty()
-               .WithMessage("The field image uri is required")
-               .LinkMustBeValid()
-               .WithMessage("The field image uri is not a valid link");
-
-            RuleFor(x => x.Available)
-                .NotNull()
-                .WithMessage("The field available is required");
-
-            RuleFor(x => x.AvailableQuantity)
-                .NotNull()
-                .WithMessage("This field is required")
-                .GreaterThanOrEqualTo(1)
-                .WithMessage("The field available quantity must be greater than or equal to 1");
-
-            RuleFor(x => x.ListPrice)
+            RuleFor(x => x.Sellers)
               .NotNull()
-              .WithMessage("The field list price is required")
-              .GreaterThan(0.1m)
-              .WithMessage("The field list price must be greater than or equal to 0.1");
+              .WithMessage("The field seller is required")
+              .Must((x, _) => x.Sellers?.Any() is true)
+              .WithMessage("The field sellers must have at least one seller");
 
-            RuleFor(x => x.SalesPrice)
+            RuleFor(x => x.Medias)
               .NotNull()
-              .WithMessage("The field sales price is required")
-              .GreaterThanOrEqualTo(0.1m)
-              .WithMessage("The field sales price must be greater than or equal to 0.1");
-
-            RuleFor(x => x.HasAwaysAvailable)
-              .NotNull()
-              .WithMessage("The field has aways available is required");
+              .WithMessage("The field medias is required")
+              .Must((x, _) => x.Medias?.Any() is true)
+              .WithMessage("The field medias must have at least one media");
         }
     }
 }

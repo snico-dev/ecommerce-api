@@ -15,5 +15,9 @@ namespace GetApi.Ecommerce.Core.Shared.Validators
         {
             return ruleBuilder.SetValidator(new SkuDtoValidator());
         }
+        public static IRuleBuilderOptions<T, SellerDto> MustBeValid<T>(this IRuleBuilder<T, SellerDto> ruleBuilder)
+        {
+            return ruleBuilder.SetValidator(new SellerDtoValidator());
+        }
     }
 }

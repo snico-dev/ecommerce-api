@@ -21,9 +21,8 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
 
         public static ProductDto MapToDto(this Product product, IEnumerable<CategoryDto> categories)
         {
-            var threeCategories = product.CategoryIds
-                                                    .SelectMany(x => GetParentCategories(x, categories))
-                                                    .ToArray();
+            var threeCategories = product.CategoryIds.SelectMany(x => GetParentCategories(x, categories)).ToArray();
+            
             return new ProductDto
             {
                 Name = product.Name,
@@ -53,12 +52,8 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
             {
                 Id = sku.Id,
                 Name = sku.Name,
-                SalesPrice = sku.SalesPrice,
-                ListPrice = sku.ListPrice,
-                AvailableQuantity = sku.AvailableQuantity,
-                HasAwaysAvailable = sku.HasAwaysAvailable,
-                Available = sku.Available,
-                ImageUri = sku.ImageUri,
+                Sellers = sku.Sellers,
+                Medias = sku.Medias,
             };
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GetApi.Ecommerce.Core.Catalog.Dtos
 {
@@ -6,11 +7,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Dtos
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public decimal SalesPrice { get; set; }
-        public decimal ListPrice { get; set; }
-        public int AvailableQuantity { get; set; }
-        public bool HasAwaysAvailable { get; set; }
-        public bool Available { get; set; }
-        public string ImageUri { get; set; }
+        public IEnumerable<SellerDto> Sellers { get; set; }
+        public IEnumerable<MediaDto> Medias { get; set; }
     }
 }

@@ -16,12 +16,8 @@ namespace GetApi.Ecommerce.Core.Catalog.Dtos
             return Skus.Select(x => new Sku()
             {
                 Name = x.Name,
-                SalesPrice = x.SalesPrice,
-                ListPrice = x.ListPrice,
-                AvailableQuantity = x.AvailableQuantity,
-                HasAwaysAvailable = x.HasAwaysAvailable,
-                Available = x.Available,
-                ImageUri = x.ImageUri,
+                Sellers = x.Sellers,
+                Medias = x.Medias,
             }).ToArray();
         }
     }
