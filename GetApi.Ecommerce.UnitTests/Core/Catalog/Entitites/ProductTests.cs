@@ -15,7 +15,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Entitites
         public void Given_A_Product_When_AddCategoryRange_Than_TheProduct_Should_Belong_A_Category()
         {
             // arrange
-            var product = Product.Create("test product", "teste description");
+            var product = Product.Create("test product", "teste description", Guid.NewGuid().ToString());
             var categoryIds = _fixture.CreateMany<Guid>(10).ToArray();
 
             // act
@@ -33,7 +33,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Entitites
         public void Given_A_Product_When_AddSkuRange_Than_TheProduct_Should_HaveSkus()
         {
             // arrange
-            var product = Product.Create("test product", "teste description");
+            var product = Product.Create("test product", "teste description", Guid.NewGuid().ToString());
             var skus = _fixture.CreateMany<Sku>(10).ToArray();
 
             // act
@@ -52,7 +52,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Entitites
         {
             // arrange
             // act 
-            var product = Product.Create("test product", "teste description");
+            var product = Product.Create("test product", "teste description", Guid.NewGuid().ToString());
 
             // arrange
             product.IsActive.Should().BeTrue();
@@ -63,7 +63,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Entitites
         public void Given_A_Product_When_Inactive_Then_TheProduct_Should_Be_Inactived()
         {
             // arrange
-            var product = Product.Create("test product", "teste description");
+            var product = Product.Create("test product", "teste description", Guid.NewGuid().ToString());
 
             // act
             product.Inactive();
@@ -76,7 +76,7 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Entitites
         public void Given_A_InactiveProduct_When_Active_Then_TheProduct_Should_Be_Actived()
         {
             // arrange
-            var product = Product.Create("test product", "teste description");
+            var product = Product.Create("test product", "teste description", Guid.NewGuid().ToString());
             product.Inactive();
 
             // act

@@ -27,6 +27,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Mappers
             {
                 Name = product.Name,
                 Description = product.Description,
+                Ean = product.Ean,
                 Categories = threeCategories,
                 Skus = product.Skus.Select(x => FromEntityToDto(x)).ToArray(),
             };

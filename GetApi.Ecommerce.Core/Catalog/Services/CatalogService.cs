@@ -30,7 +30,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
 
         public async Task Create(ProductRequest productDto, CancellationToken cancellationToken)
         {
-            var product = Product.Create(productDto.Name, productDto.Description);
+            var product = Product.Create(productDto.Name, productDto.Description, productDto.Ean);
 
             if (HasValue(productDto.CategoryIds) is false)
                 throw new InvalidOperationException("The product must have at least one category");

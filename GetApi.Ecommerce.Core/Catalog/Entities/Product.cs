@@ -9,16 +9,18 @@ namespace GetApi.Ecommerce.Core.Catalog.Entities
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public string Ean { get; private set; }
         public bool IsActive { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public ICollection<Sku> Skus { get; private set; }
         public ICollection<Guid> CategoryIds { get; private set; }
 
-        private Product(string name, string description) : base()
+        private Product(string name, string description, string ean) : base()
         {
             Name = name;
             Description = description;
+            Ean = ean;
             Skus = new List<Sku>();
             CategoryIds = new List<Guid>();
             IsActive = true;
@@ -26,9 +28,9 @@ namespace GetApi.Ecommerce.Core.Catalog.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public static Product Create(string name, string description)
+        public static Product Create(string name, string description, string ean)
         {
-            return new Product(name, description);
+            return new Product(name, description, ean);
         }
 
         public void AddSkuRange(IEnumerable<Sku> skus)

@@ -6,7 +6,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Entities
 {
     public class Category : Entity
     {
-        public Category(string name, string friendlyUrl, Guid? parentId) : base()
+        private Category(string name, string friendlyUrl, Guid? parentId) : base()
         {
             Name = name;
             FriendlyUrl = friendlyUrl;

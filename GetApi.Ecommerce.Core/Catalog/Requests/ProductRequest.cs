@@ -10,6 +10,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Requests
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Ean { get; set; }
         public IEnumerable<SkuDto> Skus { get; set; }
         public IEnumerable<Guid> CategoryIds { get; set; }
 
