@@ -1,5 +1,4 @@
-﻿using GetApi.Ecommerce.Api.Helpers;
-using GetApi.Ecommerce.Core.Catalog.Dtos;
+﻿using GetApi.Ecommerce.Core.Catalog.Dtos;
 using GetApi.Ecommerce.Core.Catalog.Requests;
 using GetApi.Ecommerce.Core.Catalog.Services;
 using Microsoft.AspNetCore.Http;
