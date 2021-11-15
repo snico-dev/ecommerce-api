@@ -65,6 +65,44 @@ namespace GetApi.Ecommerce.UnitTests.Core.Catalog.Services
         }
 
         [Fact]
+        public async Task Given_CategoryResquest_With_NotFoundParentCategoryId_When_Create_Then_Should_Throw_InvalidOperationException()
+        {
+            // arrange
+            var parentCategory = _fixture.Create<Category>();
+            var request = _fixture.Build<CategoryRequest>().With(x => x.ParentId, parentCategory.Id).Create();
+            var cancellationToken = new CancellationToken();
+
+            _repositoryMock
+                .Setup(x => x.Find(It.Is<Expression<Func<Category, bool>>>(x => x.AreEquals(z => z.Id == request.ParentId)), cancellationToken))
+                .ReturnsAsync(() => null)
+                .Verifiable();
+
+            // act
+            await GetService()
+                    .Invoking(x => x.Create(request, cancellationToken))
+                    .Should()
+                    .ThrowAsync<InvalidOperationException>()
+                    .WithMessage("Parent category id was not found");
+
+            // assert
+            _repositoryMock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task Given_NullCategoryResquest_With_When_Create_Then_Should_Throw_InvalidOperationException()
+        {
+            // arrange
+            var cancellationToken = new CancellationToken();
+
+            // act
+            await GetService()
+                    .Invoking(x => x.Create(null, cancellationToken))
+                    .Should()
+                    .ThrowAsync<InvalidOperationException>()
+                    .WithMessage("The argument: request can't be null");
+        }
+
+        [Fact]
         public async Task Given_Service_When_List_Then_ShouldReturnCategories()
         {
             // arrange

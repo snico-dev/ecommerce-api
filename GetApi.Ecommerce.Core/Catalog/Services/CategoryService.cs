@@ -23,7 +23,7 @@ namespace GetApi.Ecommerce.Core.Catalog.Services
         public async Task Create(CategoryRequest request, CancellationToken cancellationToken)
         {
             if (request is null)
-                throw new InvalidOperationException($"This argument: {nameof(request)} can't be null");
+                throw new InvalidOperationException($"The argument: {nameof(request)} can't be null");
 
             if (await HasCategory(request, cancellationToken) is false)
                 throw new InvalidOperationException("Parent category id was not found");
